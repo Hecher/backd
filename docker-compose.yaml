@@ -20,6 +20,7 @@ services:
       - "3003:3003"
     depends_on:
       - postgres
+      - ml-service
     environment:
       - NODE_ENV=production
       - DB_HOST=postgres
@@ -27,6 +28,16 @@ services:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - DB_DATABASE=diplom
+      - ML_SERVICE_URL=http://ml-service:8000
+    restart: unless-stopped
+
+  ml-service:
+    build:
+      context: ../NN
+      dockerfile: Dockerfile.yaml
+    container_name: diplom-ml-service
+    ports:
+      - "8000:8000"
     restart: unless-stopped
 
 volumes:
