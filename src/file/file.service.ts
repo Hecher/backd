@@ -25,7 +25,7 @@ export class FileService {
     // Отправляем запрос к микросервису
     try {
       const response = await firstValueFrom(
-        this.httpService.post('http://127.0.0.1:8000/detect-anomaly', form, {
+        this.httpService.post('http://ml-service:8000/detect-anomaly', form, {
           headers: {
             ...form.getHeaders(),
             // Добавьте дополнительные заголовки при необходимости
