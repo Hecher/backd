@@ -8,11 +8,12 @@ async function bootstrap() {
   let httpsOptions: any = undefined;
   try {
     httpsOptions = {
-      key: fs.readFileSync('/etc/letsencrypt/live/apidiplom.duckdns.org/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/apidiplom.duckdns.org/fullchain.pem'),
+      key: fs.readFileSync('./ssl/private-key.pem'),
+      cert: fs.readFileSync('./ssl/certificate.pem'),
     };
   } catch (error) {
     console.log('SSL сертификаты не найдены, запускаем HTTP сервер');
+    console.log('Ошибка:', error.message);
   }
 
   const options: NestApplicationOptions = {};
