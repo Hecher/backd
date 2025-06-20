@@ -10,8 +10,11 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true, limit: '50mb' }));
   
   // Включаем CORS
-  app.enableCors();
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
   
-  await app.listen(3003);
+  await app.listen(3003, '0.0.0.0');
 }
 bootstrap();
