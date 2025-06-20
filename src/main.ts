@@ -2,9 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { json, urlencoded } from 'express';
 import * as fs from 'fs';
+import { NestApplicationOptions } from '@nestjs/common';
 
 async function bootstrap() {
-  let httpsOptions = null;
+  let httpsOptions: any = undefined;
   try {
     httpsOptions = {
       key: fs.readFileSync('/etc/letsencrypt/live/apidiplom.duckdns.org/privkey.pem'),
@@ -14,9 +15,12 @@ async function bootstrap() {
     console.log('SSL сертификаты не найдены, запускаем HTTP сервер');
   }
 
-  const app = await NestFactory.create(AppModule, {
-    httpsOptions,
-  });
+  const options: NestApplicationOptions = {};
+  if (httpsOptions) {
+    options.httpsOptions = httpsOptions;
+  }
+
+  const app = await NestFactory.create(AppModule, options);
   
   // Увеличиваем лимит размера файла до 50MB
   app.use(json({ limit: '50mb' }));
